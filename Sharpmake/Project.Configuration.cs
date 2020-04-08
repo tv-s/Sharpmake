@@ -1594,6 +1594,14 @@ namespace Sharpmake
             }
             public NMakeBuildSettings CustomBuildSettings = null;
 
+            public class MakeFileBuildSettings
+            {
+                public string PathToCompiler = null;
+                public string PathToAr = null;
+                public string PathToLinker = null;
+                public bool AddLibPrefix = true;
+            }
+            public MakeFileBuildSettings MakeFileCustomBuildSettings = null;
 
             /// <summary>
             /// Specifies a function with a relative source file path as input and an object file path as output.
