@@ -102,6 +102,7 @@ namespace Sharpmake
         android    = 1 << 14,
         linux      = 1 << 15,
         mac        = 1 << 16,
+        xbox       = 1 << 17,
 
         _reserved9 = 1 << 22,
         _reserved8 = 1 << 23,
