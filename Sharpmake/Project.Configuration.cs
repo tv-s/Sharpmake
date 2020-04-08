@@ -1571,6 +1571,14 @@ namespace Sharpmake
             }
             public NMakeBuildSettings CustomBuildSettings = null;
 
+            public class MakeFileBuildSettings
+            {
+                public string PathToCompiler = null;
+                public string PathToAr = null;
+                public string PathToLinker = null;
+                public bool AddLibPrefix = true;
+            }
+            public MakeFileBuildSettings MakeFileCustomBuildSettings = null;
 
             /// <summary>
             /// If specified, every obj will be output to intermediate directories corresponding to the source hierarchy.
