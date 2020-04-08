@@ -391,10 +391,19 @@ namespace Sharpmake.Generators.Generic
         {
             Options.ExplicitOptions options = new Options.ExplicitOptions();
 
+            string compiler = null;
+            string ar = null;
+            if (conf.MakeFileCustomBuildSettings != null)
+            {
+                if (!string.IsNullOrEmpty(conf.MakeFileCustomBuildSettings.PathToCompiler))
+                    compiler = conf.MakeFileCustomBuildSettings.PathToCompiler;
+                if (!string.IsNullOrEmpty(conf.MakeFileCustomBuildSettings.PathToAr))
+                    ar = conf.MakeFileCustomBuildSettings.PathToAr;
+            }
             // CompilerToUse
             SelectOption(conf,
-                Options.Option(Options.Makefile.General.PlatformToolset.Gcc, () => { options["CompilerToUse"] = "g++"; }),
-                Options.Option(Options.Makefile.General.PlatformToolset.Clang, () => { options["CompilerToUse"] = "clang++"; })
+                Options.Option(Options.Makefile.General.PlatformToolset.Gcc, () => { options["CompilerToUse"] = (compiler != null) ? compiler : "g++"; }),
+                Options.Option(Options.Makefile.General.PlatformToolset.Clang, () => { options["CompilerToUse"] = (compiler != null) ? compiler : "clang++"; })
                 );
 
             // IntermediateDirectory
@@ -403,6 +412,8 @@ namespace Sharpmake.Generators.Generic
             // OutputDirectory
             string outputDirectory = PathMakeUnix(GetOutputDirectory(conf, projectFileInfo));
             options["OutputDirectory"] = outputDirectory;
+
+            options["ArToUse"] = (ar != null) ? ar : "ar";
 
             #region Compiler
 
@@ -558,7 +569,15 @@ namespace Sharpmake.Generators.Generic
             }
             else
             {
-                options["LinkCommand"] = Template.Project.LinkCommandExe;
+                if ((conf.MakeFileCustomBuildSettings != null)
+                    && !string.IsNullOrEmpty(conf.MakeFileCustomBuildSettings.PathToLinker))
+                {
+                    options["LinkCommand"] = Template.Project.LinkCommandExe.Replace("$(CXX)", conf.MakeFileCustomBuildSettings.PathToLinker);
+                }
+                else
+                {
+                    options["LinkCommand"] = Template.Project.LinkCommandExe;
+                }
             }
 
             if (conf.AdditionalLibrarianOptions.Any())
@@ -574,6 +593,9 @@ namespace Sharpmake.Generators.Generic
                 );
 
             #endregion
+
+            string commandSeparator = " ; ";
+            options["PostBuildCmds"] = string.Join(commandSeparator, conf.EventPostBuild);
 
             return options;
         }
@@ -639,7 +661,10 @@ namespace Sharpmake.Generators.Generic
         private static string FormatOutputFileName(Project.Configuration conf)
         {
             string outputExtension = !string.IsNullOrEmpty(conf.OutputExtension) ? "." + conf.OutputExtension : "";
-            string targetNamePrefix = (conf.Output == Project.Configuration.OutputType.Lib) ? "lib" : "";
+            bool addPrefix = true;
+            if ((conf.MakeFileCustomBuildSettings != null) && !conf.MakeFileCustomBuildSettings.AddLibPrefix)
+                addPrefix = false;
+            string targetNamePrefix = ((conf.Output == Project.Configuration.OutputType.Lib) && addPrefix) ? "lib" : "";
             return (targetNamePrefix + conf.TargetFileFullName + outputExtension);
         }
 
