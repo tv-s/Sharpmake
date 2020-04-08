@@ -89,7 +89,7 @@ endif
                 public static string ProjectConfigurationVariables =
 @"ifeq ($(config),[name])
   CXX        = [options.CompilerToUse]
-  AR         = ar
+  AR         = [options.ArToUse]
   OBJDIR     = [options.IntermediateDirectory]
   TARGETDIR  = [options.OutputDirectory]
   TARGET     = $(TARGETDIR)/[options.OutputFile]
@@ -111,8 +111,7 @@ endif
   endef
   define PRELINKCMDS
   endef
-  define POSTBUILDCMDS
-  endef
+  POSTBUILDCMDS = [options.PostBuildCmds]
   define POSTFILECMDS
   endef
 endif
