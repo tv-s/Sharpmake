@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom;
+using System.Collections.Generic;
 using Sharpmake.Generators;
 using Sharpmake.Generators.VisualStudio;
 
@@ -40,6 +41,10 @@ namespace Sharpmake
             {
                 context.Options["IncludePath"] = GetIncludePath();
                 context.Options["LibraryPath"] = GetLibPath();
+                context.SelectOption
+                (
+                Sharpmake.Options.Option(Sharpmake.Options.Vc.Compiler.CppLanguageStandard.CPP17, () => { context.Options["AdditionalOptions"] = "/std:c++17"; })
+                );
             }
 
             public override void SelectLinkerOptions(IGenerationContext context)
