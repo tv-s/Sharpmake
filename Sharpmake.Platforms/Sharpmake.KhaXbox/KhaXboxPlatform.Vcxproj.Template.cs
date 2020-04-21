@@ -8,6 +8,7 @@
                 @"  <PropertyGroup Condition=""'$(Configuration)|$(Platform)'=='[conf.Name]|[platformName]'"">
     <IncludePath>[options.IncludePath]</IncludePath>
     <LibraryPath>[options.LibraryPath]</LibraryPath>
+    <AdditionalOptions>[options.AdditionalOptions]</AdditionalOptions>
   </PropertyGroup>
 ";
         }
