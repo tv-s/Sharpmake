@@ -91,14 +91,14 @@ namespace Sharpmake
 
         public static string GetIncludePath()
         {
-            var xdkPath = System.Environment.GetEnvironmentVariable("KHA_XBOX_XDK");
-            return xdkPath + @"\xbox\include";
+            var xdkPath = System.IO.Path.GetFullPath(System.Environment.GetEnvironmentVariable("KHA_XBOX_SDK"));
+            return System.IO.Path.Combine(xdkPath, @"XDK\xbox\include");
         }
 
         public static string GetLibPath()
         {
-            var xdkPath = System.Environment.GetEnvironmentVariable("KHA_XBOX_XDK");
-            return xdkPath + @"\xbox\lib";
+            var xdkPath = System.IO.Path.GetFullPath(System.Environment.GetEnvironmentVariable("KHA_XBOX_SDK"));
+            return System.IO.Path.Combine(xdkPath, @"XDK\xbox\lib");
         }
     }
 }
