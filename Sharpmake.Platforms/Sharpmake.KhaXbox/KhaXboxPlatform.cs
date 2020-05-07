@@ -81,6 +81,8 @@ namespace Sharpmake
                 var dirs = new List<string>() { GetIncludePath() };
                 foreach (var i in context.Configuration.IncludePaths)
                     dirs.Add(i);
+                foreach (var i in context.Configuration.DependenciesIncludePaths)
+                    dirs.Add(i);
                 foreach (var i in context.Configuration.IncludePrivatePaths)
                     dirs.Add(i);
                 return dirs;
