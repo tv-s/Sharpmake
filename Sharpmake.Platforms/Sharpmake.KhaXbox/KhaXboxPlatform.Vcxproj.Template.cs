@@ -9,6 +9,7 @@
     <IncludePath>[options.IncludePath]</IncludePath>
     <LibraryPath>[options.LibraryPath]</LibraryPath>
     <AdditionalOptions>[options.AdditionalOptions]</AdditionalOptions>
+    <ExecutablePath>%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;</ExecutablePath>
   </PropertyGroup>
 ";
         }
