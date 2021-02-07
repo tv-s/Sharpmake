@@ -709,7 +709,7 @@ namespace Sharpmake.Generators.Generic
             bool addPrefix = true;
             if ((conf.MakeFileCustomBuildSettings != null) && !conf.MakeFileCustomBuildSettings.AddLibPrefix)
                 addPrefix = false;
-            string targetNamePrefix = ((conf.Output == Project.Configuration.OutputType.Lib) || (conf.Output == Project.Configuration.OutputType.Dll)) && addPrefix) ? "lib" : "";
+            string targetNamePrefix = (((conf.Output == Project.Configuration.OutputType.Lib) || (conf.Output == Project.Configuration.OutputType.Dll)) && addPrefix) ? "lib" : "";
             return (targetNamePrefix + conf.TargetFileFullName + outputExtension);
         }
 
