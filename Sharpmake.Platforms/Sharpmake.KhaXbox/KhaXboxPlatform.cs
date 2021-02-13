@@ -41,10 +41,17 @@ namespace Sharpmake
             {
                 context.Options["IncludePath"] = GetIncludePath();
                 context.Options["LibraryPath"] = GetLibPath();
+                var additionalOptions = new List<string>();
                 context.SelectOption
                 (
-                Sharpmake.Options.Option(Sharpmake.Options.Vc.Compiler.CppLanguageStandard.CPP17, () => { context.Options["AdditionalOptions"] = "/std:c++17"; })
+                Sharpmake.Options.Option(Sharpmake.Options.Vc.Compiler.CLanguageStandard.C11, () => { additionalOptions.Add("/std:c11"); }),
+                Sharpmake.Options.Option(Sharpmake.Options.Vc.Compiler.CLanguageStandard.C17, () => { additionalOptions.Add("/std:c17"); })
                 );
+                context.SelectOption
+                (
+                Sharpmake.Options.Option(Sharpmake.Options.Vc.Compiler.CppLanguageStandard.CPP17, () => { additionalOptions.Add("/std:c++17"); })
+                );
+                context.Options["AdditionalOptions"] = string.Join(" ", additionalOptions.ToArray());
             }
 
             public override void SelectLinkerOptions(IGenerationContext context)
